@@ -40,21 +40,43 @@
 	<div id="header">
 		<div class="container">
 		<div class="sixteen columns">
-			<a href="#" class="button">Login</a>
-			<a href="register.html" class="button">Register</a>
+			<a href="#" class="button" id="login">Logga in</a>
+			<a href="#" class="button" id="register">Registrera</a>
 		</div>
 		</div>
 	</div>
 	<div class="container">
+		<!-- Hidden login and registration forms -->
+		<div id="loginform">
+			<h3>Logga in</h3>
+			<form action="">
+				<label for="name">Användarnamn</label>
+				<input type="text" id="name" />
+				<label for="password">Lösenord</label>
+				<input type="password" id="password" /> 
+				<button type="submit" id="submitlogin">Logga in</button>
+			</form>
+		</div>
+		<div id="registerform">
+			<h3>Registera</h3>
+			<form action="">
+				<label for="name">Användarnamn</label>
+				<input type="text" id="registername" />
+				<label for="password">Lösenord</label>
+				<input type="password" id="registerpassword" /> 
+				<button type="submit" id="submitregister">Registrera</button>
+			</form>
+		</div>		
+		<!-- Hidden login and registration forms -->
+		
 		<div class="sixteen columns">
-			<img class="scale-with-grid" src="media/pics/title_wip.png" />
+			<img class="scale-with-grid centered" src="media/pics/title_wip.png" />
 		</div>
 
 		<div class="four columns">
 			<blockquote>
 				<p>
-					Detta kommer bli kalas!
-					
+					Detta kommer bli kalas!				
 					<cite>
 						Christoffer Goude
 					</cite>
@@ -105,7 +127,10 @@
 		</div>
 	</div><!-- container -->
 
-
+	<!-- Scripts -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="js/js.js"></script>
+	
 <!-- End Document
 ================================================== -->
 </body>

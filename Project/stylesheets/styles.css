@@ -1,3 +1,15 @@
+/* ------- */
+/* Commons */
+/* ------- */
+
+body{
+	overflow-y:scroll;
+}
+
+/* ---- */
+/* ID's */
+/* ---- */
+
 #header{
 	background-color:#EEEEEE;
 	height:32px;
@@ -5,4 +17,47 @@
 	margin:0 0 20px 0;
 	padding:5px 0;
 	border-bottom:1px solid #DDDDDD;
+}
+
+#login{}
+#submitlogin{}
+
+#register{float:right;}
+#submitregister{}
+
+#loginform{
+	display:none;
+	background-color:#EEEEEE;
+	border:1px solid #DDDDDD;
+	z-index:100;
+	position:absolute;
+	top:-18px;
+	left:1%;
+	padding:10px;
+	margin:0;
+	width:auto;
+	height:auto;
+}
+
+#registerform{
+	display:none;
+	background-color:#EEEEEE;
+	border:1px solid #DDDDDD;
+	z-index:100;
+	position:absolute;
+	top:-18px;
+	right:1%;
+	padding:10px;
+	margin:0;
+	width:auto;
+	height:auto;
+}
+
+/* ------- */
+/* Classes */
+/* ------- */
+
+.centered{
+	display:block;
+	margin:0 auto 20px auto;
 }
