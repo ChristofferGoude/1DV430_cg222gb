@@ -8,6 +8,7 @@ $("#login").click(function() {
     if(document.getElementById("loginform").style.display == "block")
     {
         $("#loginform").slideUp("slow");
+        
     }
     else{
         $("#loginform").slideDown("slow");
@@ -24,6 +25,8 @@ $("#register").click(function() {
     if(document.getElementById("registerform").style.display == "block")
     {
         $("#registerform").slideUp("slow");
+        document.getElementById("registername").value = "";
+        document.getElementById("registerpassword").value = "";
     }
     else{
         $("#registerform").slideDown("slow");
@@ -39,6 +42,6 @@ $("#submitregister").click(function() {
     url: "php/functions.php",
     data: {username:username, password:password}
     }).done(function(data){
-        alert("Test av regformulär!");
+        alert(data);
     });
 });

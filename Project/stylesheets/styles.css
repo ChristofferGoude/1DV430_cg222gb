@@ -53,11 +53,19 @@ body{
 	height:auto;
 }
 
+#newblogpost input[type="text"], textarea{
+	width:100%;
+	resize:none;
+}
+
+#newblogpost textarea{
+	height:300px;
+}
 /* ------- */
 /* Classes */
 /* ------- */
 
 .centered{
 	display:block;
-	margin:0 auto 20px auto;
+	margin:0 auto;
 }
