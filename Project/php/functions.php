@@ -8,8 +8,7 @@ class DatabaseController{
 	private static $pass = "kakalaxus75x";
 	
 	
-	public function createConnection(){
-		
+	public function createConnection(){	
 		try {
 		    self::$dbh = new PDO("mysql:host=" . self::$hostname . ";dbname=" . self::$dbname . "", self::$user, self::$pass);
 			self::$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);		
@@ -22,12 +21,10 @@ class DatabaseController{
 	}
 	
 	public function insertNewUser($username, $password){
-		
 		try{
 			$this->createConnection();	
 		}
 		catch (PDOException $e){
-			die();
 			return "Ett fel uppstog i databashanteringen." . $e->getMessage();
 		}
 		
@@ -57,6 +54,10 @@ $dbc = new DatabaseController();
 if(isset($_POST["username"]) && isset($_POST["password"])){
 	echo $dbc->insertNewUser($_POST["username"], $_POST["password"]);
 }
-else{
-	echo "POST verkar inte funka!";
+
+if(isset($_POST["title"]) && isset($_POST["blogpost"])){
+	echo "Post av blogginlägg funkar.";
 }
+
+
+
