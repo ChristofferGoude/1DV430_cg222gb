@@ -13,7 +13,7 @@ class DatabaseController{
 		    self::$dbh = new PDO("mysql:host=" . self::$hostname . ";dbname=" . self::$dbname . "", self::$user, self::$pass);
 			self::$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);		
 			
-			return $dbh;
+			return self::$dbh;
 		} 
 		catch (PDOException $e) {
 			throw $e;
