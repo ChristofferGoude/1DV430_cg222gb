@@ -25,6 +25,10 @@ body{
 #register{float:right;}
 #submitregister{}
 
+#title{}
+#blogpost{}
+#submitblogpost{}
+
 #loginform{
 	display:none;
 	background-color:#EEEEEE;

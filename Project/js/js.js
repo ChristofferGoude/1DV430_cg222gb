@@ -37,18 +37,18 @@ $("#submitregister").click(function() {
    var username = document.getElementById("registername").value;
    var password = document.getElementById("registerpassword").value;
     
-   $.ajax({
-    type: "POST",
-    url: "php/functions.php",
-    data: {username:username, password:password}
-    }).done(function(data){
-        console.log(data);
+    $.ajax({
+        type: "POST",
+        url: "php/functions.php",
+        data: {username:username, password:password}
+        }).done(function(data){
+            alert(data);
     });
 });
 
 /* Functions for new blog post */
 
-$("submitblogpost").click(function() {
+$("#submitblogpost").click(function() {
     var title = document.getElementById("title").value;
     var blogpost = document.getElementById("blogpost").value;
     
