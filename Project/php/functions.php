@@ -7,6 +7,7 @@ class DatabaseController{
 	private static $dbname = "166006-fullyawesome";
 	private static $user = "166006_jh40220";
 	private static $pass = "kakalaxus75x";
+	private static $session = "";
 	
 	
 	public function createConnection(){	
@@ -64,6 +65,10 @@ class DatabaseController{
 		}
 	}
 	
+	public function doesUserExist(){
+		//TODO: Fix functionality to check if user exists
+	}
+	
 	public function insertNewBlogpost($title, $blogpost){
 		try{
 			if($title == "" || $blogpost == ""){
@@ -95,8 +100,14 @@ class DatabaseController{
 		// TODO: FIx delete func
 	}
 	
-	public function loginUser($username){
+	public function loginUser($username, $password){
 		// TODO: Fix check for online user by session cookies.
+	}
+	
+	public function isUserLoggedIn(){
+		if($_SESSION[self::$session] != ""){
+			//TODO: Send information to show page for logged in user.
+		}
 	}
 }
 
@@ -104,15 +115,21 @@ class DatabaseController{
 
 $dbc = new DatabaseController();
 
+//Login is requested
+if(isset($_POST["loginusername"]) && isset($_POST["loginpassword"])){
+	echo $dbc->loginUser($username)
+}
+
 // Creation of new user is requested
-if(isset($_POST["username"]) && isset($_POST["password"])){
-	echo $dbc->insertNewUser($_POST["username"], $_POST["password"]);
+if(isset($_POST["registerusername"]) && isset($_POST["registerpassword"])){
+	echo $dbc->insertNewUser($_POST["registerusername"], $_POST["registerpassword"]);
 }
 
 // Creation of new blog post is requested
 if(isset($_POST["title"]) && isset($_POST["blogpost"])){
 	echo "Post av blogginlägg funkar.";
 }
+
 
 
 

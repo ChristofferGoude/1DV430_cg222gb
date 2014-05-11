@@ -2,6 +2,15 @@
  * @author Christoffer
  */
 
+/* Functions to check login session */
+
+window.onload = function(){
+    if(document.getElementById("header").style.display == "none")
+    {
+        document.getElementById("header").style.display == "block";
+    }
+};
+
 /* Functions for login */
 
 $("#login").click(function() {   
@@ -16,7 +25,16 @@ $("#login").click(function() {
 });
 
 $("#submitlogin").click(function() {
-    alert("Skicka loginformulär!");
+    var loginusername = document.getElementById("name").value;
+    var password = document.getElementById("password").value;
+    
+    $.ajax({
+        type: "POST",
+        url: "php/functions.php",
+        data: {loginusername:loginusername, loginpassword:loginpassword}
+        }).done(function(data){
+            alert(data);
+    });
 });
 
 /* Functions for registring */
@@ -34,13 +52,13 @@ $("#register").click(function() {
 });
 
 $("#submitregister").click(function() {  
-   var username = document.getElementById("registername").value;
-   var password = document.getElementById("registerpassword").value;
+    var username = document.getElementById("registername").value;
+    var password = document.getElementById("registerpassword").value;
     
     $.ajax({
         type: "POST",
         url: "php/functions.php",
-        data: {username:username, password:password}
+        data: {registerusername:registerusername, registerpassword:registerpassword}
         }).done(function(data){
             alert(data);
     });
@@ -52,12 +70,14 @@ $("#submitblogpost").click(function() {
     var title = document.getElementById("title").value;
     var blogpost = document.getElementById("blogpost").value;
     
-    $.ajax({
-        type: "POST",
-        url: "php/functions.php",
-        data: {title:title, blogpost:blogpost}
-        }).done(function(data){
-            alert(data);
-    });
+    alert("TEST");
     
+    /*TODO: Fix this, dunno what is the issue at the moment, no post to functions.php though.. */
+    $.ajax({
+       type: "POST",
+       url: "php/functions.php",
+       data: {title:title, blogpost:blogpost}
+       }).done(function(data){
+           alert(data);
+    });
 });
