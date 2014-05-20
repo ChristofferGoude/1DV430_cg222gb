@@ -11,7 +11,7 @@ body{
 /* ---- */
 
 #header{
-	display:none;
+	display:block;
 	background-color:#EEEEEE;
 	height:32px;
 	width:100%;
@@ -32,6 +32,8 @@ body{
 
 #login{}
 #submitlogin{}
+
+#logout{float:right;}
 
 #register{float:right;}
 #submitregister{}
@@ -68,6 +70,20 @@ body{
 	height:auto;
 }
 
+#admininterface{
+	display:none;
+	background-color:#EEEEEE;
+	border:1px solid #DDDDDD;
+	z-index:100;
+	position:absolute;
+	top:-18px;
+	right:1%;
+	padding:10px;
+	margin:0;
+	width:auto;
+	height:auto;
+}
+
 #newblogpost input[type="text"], textarea{
 	width:100%;
 	resize:none;
@@ -83,4 +99,9 @@ body{
 .centered{
 	display:block;
 	margin:0 auto;
+}
+
+.loggedinheader{
+	max-width:120px;
+	background-color:#465487;
 }

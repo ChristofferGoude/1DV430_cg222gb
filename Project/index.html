@@ -51,9 +51,11 @@
 	<!-- Header when user is logged in -->
 	<div id="loggedinheader">
 		<div class="container">
-		<div class="sixteen columns">
-			<p>Header som visas när användare är inloggad.</p>
-		</div>
+			<div class="sixteen columns">
+				<div class="loggedinheader">
+				</div>
+				<a href="#" class="button" id="logout">Logga ut</a>
+			</div>
 		</div>
 	</div>
 	<div class="container">
@@ -78,8 +80,19 @@
 				<button type="submit" id="submitregister">Registrera</button>
 			</form>
 		</div>		
-		<!-- Hidden login and registration forms -->
+		<!-- Hidden admin interface form -->
+		<div id="admininterface">
+			<h3>Nytt inlägg</h3>
+			<form action="">
+				<label for="title">Titel</label>
+				<input type="text" id="title" />
+				<label for="blogpost">Inlägg</label>
+				<textarea id="blogpost"></textarea>
+				<button type="submit" id="submitblogpost">Lägg till inlägg</button>
+			</form>
+		</div>
 		
+		<!-- Main content -->
 		<div class="sixteen columns">
 			<img class="scale-with-grid centered add-bottom" src="media/pics/title_wip.png" />
 		</div>

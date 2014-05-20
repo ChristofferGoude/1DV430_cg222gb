@@ -5,10 +5,18 @@
 /* Functions to check login session */
 
 window.onload = function(){
-    if(document.getElementById("header").style.display == "none")
-    {
-        document.getElementById("header").style.display == "block";
-    }
+    $.ajax({
+        type: "GET",
+        url: "php/functions.php",
+        data: {onload:"onload"}
+        }).done(function(data){
+            if(data != false){
+                document.getElementById("header").style.display = "none";
+                document.getElementById("loggedinheader").style.display = "block";
+
+                $(".loggedinheader").html("<p>Välkommen " + data + "</p>");
+            }
+    });
 };
 
 /* Functions for login */
@@ -26,14 +34,40 @@ $("#login").click(function() {
 
 $("#submitlogin").click(function() {
     var loginusername = document.getElementById("name").value;
-    var password = document.getElementById("password").value;
+    var loginpassword = document.getElementById("password").value;
     
     $.ajax({
         type: "POST",
         url: "php/functions.php",
         data: {loginusername:loginusername, loginpassword:loginpassword}
         }).done(function(data){
-            alert(data);
+            if(data == false){
+                alert("Denna användare hittades inte!");
+            }
+            else{
+                $("#loginform").slideUp("slow");
+                document.getElementById("header").style.display = "none";
+                document.getElementById("loggedinheader").style.display = "block";
+                
+                $(".loggedinheader").html("<p>Välkommen " + data + "</p>");
+            }
+    });
+});
+
+/* Functions for logout */
+
+$("#logout").click(function() {   
+        $.ajax({
+        type: "GET",
+        url: "php/functions.php",
+        data: {logout:"logout"}
+        }).done(function(data){
+            if(data != false){
+                document.getElementById("loggedinheader").style.display = "none";
+                document.getElementById("header").style.display = "block";
+
+                $(".loggedinheader").empty();
+            }
     });
 });
 
@@ -52,8 +86,8 @@ $("#register").click(function() {
 });
 
 $("#submitregister").click(function() {  
-    var username = document.getElementById("registername").value;
-    var password = document.getElementById("registerpassword").value;
+    var registerusername = document.getElementById("registername").value;
+    var registerpassword = document.getElementById("registerpassword").value;
     
     $.ajax({
         type: "POST",
@@ -69,8 +103,6 @@ $("#submitregister").click(function() {
 $("#submitblogpost").click(function() {
     var title = document.getElementById("title").value;
     var blogpost = document.getElementById("blogpost").value;
-    
-    alert("TEST");
     
     /*TODO: Fix this, dunno what is the issue at the moment, no post to functions.php though.. */
     $.ajax({
