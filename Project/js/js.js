@@ -11,10 +11,28 @@ window.onload = function(){
         data: {onload:"onload"}
         }).done(function(data){
             if(data != false){
+                checkAdminStatus();
+                
                 document.getElementById("header").style.display = "none";
                 document.getElementById("loggedinheader").style.display = "block";
 
-                $(".loggedinheader").html("<p>Välkommen " + data + "</p>");
+                $(".loggedinheader").append("Välkommen " + data);
+            }
+    });
+    
+    $.ajax({
+        type: "GET",
+        url: "php/functions.php",
+        datatype:"json",
+        data: {getblogposts:"getblogposts"}
+        }).done(function(data){
+            blogposts = JSON.parse(data);
+            
+            for(i = 0; i < Object.keys(blogposts).length; i++){
+                console.log(blogposts[i].Title);
+                console.log(blogposts[i].Blogpost);
+                
+                $("#blogposts").append("<div class='sixteen columns'><h2 class='headline'> " + blogposts[i].Title + "</h2><p>" + blogposts[i].Blogpost + "</p></div>");
             }
     });
 };
@@ -46,13 +64,30 @@ $("#submitlogin").click(function() {
             }
             else{
                 $("#loginform").slideUp("slow");
+                
+                checkAdminStatus();
                 document.getElementById("header").style.display = "none";
-                document.getElementById("loggedinheader").style.display = "block";
+                document.getElementById("loggedinheader").style.display = "block";                
                 
                 $(".loggedinheader").html("<p>Välkommen " + data + "</p>");
             }
     });
 });
+
+function checkAdminStatus(){
+    $.ajax({
+        type: "GET",
+        url: "php/functions.php",
+        data: {checkadminstatus:"checkadminstatus"}
+        }).done(function(data){
+            if(data != false){
+                document.getElementById("admin").style.display = "block";
+            }
+            else if(data == false){
+                document.getElementById("admin").style.display = "none";
+            }
+    });
+}
 
 /* Functions for logout */
 
@@ -100,16 +135,34 @@ $("#submitregister").click(function() {
 
 /* Functions for new blog post */
 
+$("#admin").click(function(){
+    if(document.getElementById("admininterface").style.display == "block")
+    {
+        $("#admininterface").slideUp("slow");
+    }
+    else
+    {
+        $("#admininterface").slideDown("slow");
+    }
+});
+
 $("#submitblogpost").click(function() {
     var title = document.getElementById("title").value;
     var blogpost = document.getElementById("blogpost").value;
     
-    /*TODO: Fix this, dunno what is the issue at the moment, no post to functions.php though.. */
     $.ajax({
        type: "POST",
        url: "php/functions.php",
        data: {title:title, blogpost:blogpost}
-       }).done(function(data){
-           alert(data);
+       }).done(function(data){                
+            document.getElementById("title").value = "";
+            document.getElementById("blogpost").value = "";
+            
+            $("#admininterface").slideUp("slow");
+            location.reload();
     });
+});
+
+$(".back").click(function(){
+    $("#admininterface").slideUp("slow");
 });

@@ -42,6 +42,12 @@ body{
 #blogpost{}
 #submitblogpost{}
 
+#admin{
+	display:none;
+	float:right;
+	margin:0 5px 0 0;
+}
+
 #loginform{
 	display:none;
 	background-color:#EEEEEE;
@@ -77,15 +83,15 @@ body{
 	z-index:100;
 	position:absolute;
 	top:-18px;
-	right:1%;
+	left:0%;
 	padding:10px;
 	margin:0;
-	width:auto;
+	width:100%;
 	height:auto;
 }
 
 #newblogpost input[type="text"], textarea{
-	width:100%;
+	width:90%;
 	resize:none;
 }
 
@@ -96,12 +102,29 @@ body{
 /* Classes */
 /* ------- */
 
+.back{}
+
 .centered{
 	display:block;
 	margin:0 auto;
 }
 
-.loggedinheader{
-	max-width:120px;
-	background-color:#465487;
+.headline{
+	text-align:center;
+	color:#CCCCCC;
+	margin:0 0 20px 0;
 }
+
+.loggedinheader{
+	margin:9px;
+	color: #444;
+	display: inline-block;
+	font-size: 11px;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0 1px rgba(255, 255, 255, .75);
+	line-height: normal;
+	font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.blogpost{}

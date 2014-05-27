@@ -52,9 +52,10 @@
 	<div id="loggedinheader">
 		<div class="container">
 			<div class="sixteen columns">
-				<div class="loggedinheader">
-				</div>
 				<a href="#" class="button" id="logout">Logga ut</a>
+				<a href="#" class="button" id="admin">Nytt inlägg</a>
+				<p class="loggedinheader">
+				</p>			
 			</div>
 		</div>
 	</div>
@@ -83,71 +84,21 @@
 		<!-- Hidden admin interface form -->
 		<div id="admininterface">
 			<h3>Nytt inlägg</h3>
-			<form action="">
+			<form action="" id="newblogpost">
 				<label for="title">Titel</label>
 				<input type="text" id="title" />
 				<label for="blogpost">Inlägg</label>
 				<textarea id="blogpost"></textarea>
 				<button type="submit" id="submitblogpost">Lägg till inlägg</button>
+				<a href="#" class="button back">Tillbaka</a>
 			</form>
 		</div>
 		
 		<!-- Main content -->
 		<div class="sixteen columns">
-			<img class="scale-with-grid centered add-bottom" src="media/pics/title_wip.png" />
-		</div>
-
-		<div class="four columns">
-			<blockquote>
-				<p>
-					Detta kommer bli kalas!				
-					<cite>
-						Christoffer Goude
-					</cite>
-				</p>
-			</blockquote>
-			<p>
-				Lets throw a bazza heaps built like a scratchy. Come a pozzy when gutful of drongo. Lets throw a cubby house grab us a pig's arse. He's got a massive ankle biter no worries come a rotten. 
-				Come a bloody oath! where it'll be ridgy-didge. Get a dog up ya postie where gutful of cut lunch commando.
-			</p>
-			<p>
-				As cunning as a roo no dramas lets get some decent nik. We're going cooee no worries he's got a massive freckle. She'll be right pav no worries he's got a massive thingo. It'll be bonza no 
-				worries as dry as a yabber. Get a dog up ya blue piece of piss built like a no-hoper. We're going ugg piece of piss stands out like a muster. rotten no dramas grab us a ocker. We're going pot 
-				to it'll be show pony.
-			</p>
-		</div>
-		<div class="four columns">
-			<p>
-				Shazza got us some quid no dramas she'll be right true blue. She'll be right big smoke no dramas as cross as a tinny. Lets throw a bottlo how built like a deadset. As cunning as a bogged piece 
-				of piss lets throw a ute. You little ripper digger flamin stands out like a two pot screamer.
-			</p>
-			<p>
-				As stands out like rack off to gutful of pretty spiffy. Shazza got us some ten clicks away my we're going pig's arse. We're going brick sh*t house it'll be blue. Shazza got us some cat burying 
-				shit no worries as stands out like dole bludger. Come a chrissie mate come a going off. We're going true blue piece of piss you little ripper bunyip. As cross as a pretty spiffy how come a holy dooley!. 
-				Shazza got us some rack off with you little ripper smoko. Get a dog up ya jillaroo with she'll be right struth.
-			</p>
-		</div>
-		<div class="four columns">
-			<p>
-				Lets throw a bazza heaps built like a scratchy. Come a pozzy when gutful of drongo. Lets throw a cubby house grab us a pig's arse. He's got a massive ankle biter no worries come a rotten. 
-				Come a bloody oath! where it'll be ridgy-didge. Get a dog up ya postie where gutful of cut lunch commando.
-			</p>
-			<p>
-				As cunning as a roo no dramas lets get some decent nik. We're going cooee no worries he's got a massive freckle. She'll be right pav no worries he's got a massive thingo. It'll be bonza no 
-				worries as dry as a yabber. Get a dog up ya blue piece of piss built like a no-hoper. We're going ugg piece of piss stands out like a muster. rotten no dramas grab us a ocker. We're going pot 
-				to it'll be show pony.
-			</p>
-		</div>
-		<div class="four columns">
-			<p>
-				Shazza got us some quid no dramas she'll be right true blue. She'll be right big smoke no dramas as cross as a tinny. Lets throw a bottlo how built like a deadset. As cunning as a bogged piece 
-				of piss lets throw a ute. You little ripper digger flamin stands out like a two pot screamer.
-			</p>
-			<p>
-				As stands out like rack off to gutful of pretty spiffy. Shazza got us some ten clicks away my we're going pig's arse. We're going brick sh*t house it'll be blue. Shazza got us some cat burying 
-				shit no worries as stands out like dole bludger. Come a chrissie mate come a going off. We're going true blue piece of piss you little ripper bunyip. As cross as a pretty spiffy how come a holy dooley!. 
-				Shazza got us some rack off with you little ripper smoko. Get a dog up ya jillaroo with she'll be right struth.
-			</p>
+			<img class="scale-with-grid centered add-bottom" src="media/pics/title_2_wip.png" />
+			<div id="blogposts">
+			</div>
 		</div>
 	</div><!-- container -->
 

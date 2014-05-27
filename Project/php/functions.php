@@ -169,9 +169,26 @@ class DatabaseController{
 	}
 	
 	public function getBlogPosts(){
-			
-		//This is for getting a row from the selection, loop these and print that shit yo	
-		//$query->fetch(PDO::FETCH_ASSOC)
+		$this->createConnection();
+		
+		$sql = "SELECT Title, Blogpost FROM Blogpost";	
+		$query = self::$dbh->prepare($sql);
+		$query->execute();
+	
+		$blogposts = $query->fetchAll();
+		
+		self::$dbh = null;
+		
+		return json_encode($blogposts);
+	}
+	
+	public function checkAdminStatus(){
+		if($this->isUserLoggedIn() == "admin"){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
 
@@ -189,6 +206,16 @@ if(isset($_GET["logout"])){
 	echo $dbc->userLogOut();
 }
 
+//GET Request for getting all posts
+if(isset($_GET["getblogposts"])){
+	echo $dbc->getBlogPosts();
+}
+
+//GET Request for checking admin status
+if(isset($_GET["checkadminstatus"])){
+	echo $dbc->checkAdminStatus();
+}
+
 //Login is requested
 if(isset($_POST["loginusername"]) && isset($_POST["loginpassword"])){
 	echo $dbc->loginUser($_POST["loginusername"], $_POST["loginpassword"]);
@@ -201,7 +228,7 @@ if(isset($_POST["registerusername"]) && isset($_POST["registerpassword"])){
 
 // Creation of new blog post is requested
 if(isset($_POST["title"]) && isset($_POST["blogpost"])){
-	echo "Post av blogginlägg funkar.";
+	echo $dbc->insertNewBlogpost($_POST["title"], $_POST["blogpost"]);
 }
 
 
