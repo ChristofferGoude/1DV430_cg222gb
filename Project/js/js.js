@@ -32,7 +32,20 @@ window.onload = function(){
                 console.log(blogposts[i].Title);
                 console.log(blogposts[i].Blogpost);
                 
-                $("#blogposts").append("<div class='sixteen columns'><h2 class='headline'> " + blogposts[i].Title + "</h2><p>" + blogposts[i].Blogpost + "</p></div>");
+                $("#blogposts").append("<div class='sixteen columns'><h2 class='headline'> " + 
+                                        blogposts[i].Title + 
+                                        "</h2><p>" + 
+                                        blogposts[i].Blogpost + 
+                                        "</p></div>" +
+                                        "<form action=''>" +
+                                            "<label for='comment'>Lägg till kommentar</label>" +
+                                            "<textarea class='comment'></textarea>" +
+                                            "<button type='submit' class='" + i + "'>Kommentera</button>" +
+                                        "</form>");
+                                        
+                $("." + i).click(function() {  
+                    alert("Nu tryckte du på knapp nummer " + i);
+                });
             }
     });
 };
@@ -73,6 +86,21 @@ $("#submitlogin").click(function() {
             }
     });
 });
+
+function checkLoginStatus(){
+    $.ajax({
+        type: "GET",
+        url: "php/functions.php",
+        data: {checkloginstatus:"checkloginstatus"}
+        }).done(function(data){
+            if(data != false){
+                document.getElementsByClassName("comment").disabled = false;
+            }
+            else if(data == false){
+                document.getElementsByClassName("comment").disabled = true;
+            }
+    });
+}
 
 function checkAdminStatus(){
     $.ajax({

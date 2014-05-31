@@ -6,9 +6,22 @@ body{
 	overflow-y:scroll;
 }
 
+p{
+	color:#231F20;
+}
+
 /* ---- */
 /* ID's */
 /* ---- */
+
+#accent{
+	display:block;
+	background-color:#231F20;
+	height:10px;
+	width:100%;
+	margin:0 0 20px 0;
+	padding:0;
+}
 
 #header{
 	display:block;
@@ -41,6 +54,11 @@ body{
 #title{}
 #blogpost{}
 #submitblogpost{}
+
+#blogposts{
+	margin:0 0 40px 0;
+	padding:0;
+}
 
 #admin{
 	display:none;
@@ -91,7 +109,7 @@ body{
 }
 
 #newblogpost input[type="text"], textarea{
-	width:90%;
+	width:100%;
 	resize:none;
 }
 
@@ -128,3 +146,5 @@ body{
 }
 
 .blogpost{}
+
+.comment{}

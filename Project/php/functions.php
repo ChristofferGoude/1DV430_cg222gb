@@ -67,8 +67,18 @@ class DatabaseController{
 		}
 	}
 	
-	public function doesUserExist(){
-		//TODO: Fix functionality to check if user exists
+	public function getBlogPosts(){
+		$this->createConnection();
+		
+		$sql = "SELECT BlogpostID, Title, Blogpost FROM Blogposts";	
+		$query = self::$dbh->prepare($sql);
+		$query->execute();
+	
+		$blogposts = $query->fetchAll();
+		
+		self::$dbh = null;
+		
+		return json_encode($blogposts);
 	}
 	
 	public function insertNewBlogpost($title, $blogpost){
@@ -79,7 +89,7 @@ class DatabaseController{
 			
 			$this->createConnection();	
 			
-			$sql = "INSERT INTO Blogpost (Title,Blogpost) VALUES (:title,:blogpost)";	
+			$sql = "INSERT INTO Blogposts (Title,Blogpost) VALUES (:title,:blogpost)";	
 			$query = self::$dbh->prepare($sql);
 			$query->bindParam(":title", $title);
 		  	$query->bindParam(":blogpost", $blogpost);
@@ -106,7 +116,6 @@ class DatabaseController{
 	 * @return False if there is no user, otherwise saves the session and returns the username.
 	 */
 	public function loginUser($username, $password){
-		// TODO: Fix check for online user by session cookies.
 		try{
 			if($username == "" || $password == ""){
 				throw new PDOException("Du måste ange användarnamn och lösenord!");
@@ -144,8 +153,15 @@ class DatabaseController{
 		if(isset($_SESSION[self::$session])){
 		
 			return $_SESSION[self::$session];
-			
-			//TODO: Send information to show page for logged in user.
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function checkAdminStatus(){
+		if($this->isUserLoggedIn() == "admin"){
+			return true;
 		}
 		else{
 			return false;
@@ -164,29 +180,6 @@ class DatabaseController{
 		catch(Exception $e){
 			//Error handling if something went wrong
 			
-			return false;
-		}
-	}
-	
-	public function getBlogPosts(){
-		$this->createConnection();
-		
-		$sql = "SELECT Title, Blogpost FROM Blogpost";	
-		$query = self::$dbh->prepare($sql);
-		$query->execute();
-	
-		$blogposts = $query->fetchAll();
-		
-		self::$dbh = null;
-		
-		return json_encode($blogposts);
-	}
-	
-	public function checkAdminStatus(){
-		if($this->isUserLoggedIn() == "admin"){
-			return true;
-		}
-		else{
 			return false;
 		}
 	}
@@ -209,6 +202,11 @@ if(isset($_GET["logout"])){
 //GET Request for getting all posts
 if(isset($_GET["getblogposts"])){
 	echo $dbc->getBlogPosts();
+}
+
+//GET Request for checking login status
+if(isset($_GET["checkloginstatus"])){
+	echo $dbc->checkLoginStatus();
 }
 
 //GET Request for checking admin status
