@@ -14,7 +14,7 @@ class DatabaseController{
 	
 	public function createConnection(){	
 		try {
-		    self::$dbh = new PDO("mysql:host=" . self::$localhost . ";dbname=" . self::$dbname . "", self::$user, self::$pass);
+		    self::$dbh = new PDO("mysql:host=" . self::$hostname . ";dbname=" . self::$dbname . "", self::$user, self::$pass);
 			self::$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);		
 			
 			return self::$dbh;
@@ -68,17 +68,22 @@ class DatabaseController{
 	}
 	
 	public function getBlogPosts(){
-		$this->createConnection();
+		try{		
+			$this->createConnection();
+			
+			$sql = "SELECT BlogpostID, Title, Blogpost FROM Blogposts";	
+			$query = self::$dbh->prepare($sql);
+			$query->execute();
 		
-		$sql = "SELECT BlogpostID, Title, Blogpost FROM Blogposts";	
-		$query = self::$dbh->prepare($sql);
-		$query->execute();
-	
-		$blogposts = $query->fetchAll();
-		
-		self::$dbh = null;
-		
-		return json_encode($blogposts);
+			$blogposts = $query->fetchAll();
+			
+			self::$dbh = null;
+			
+			return json_encode($blogposts);
+		}
+		catch (PDOException $e){
+			return "Databasqueryn misslyckades. " . $e->getMessage();
+		}
 	}
 	
 	public function insertNewBlogpost($title, $blogpost){
@@ -110,6 +115,30 @@ class DatabaseController{
 	
 	public function deleteBlogPost(){
 		// TODO: FIx delete func
+	}
+	
+	public function insertNewComment($blogpostID, $comment){
+		try{
+			if($comment == ""){
+				throw new PDOException("Du måste skriva en kommentar!");
+			}
+			else if(strlen($comment) > 140){
+				throw new PDOException("Din kommentar får max vara 140 tecken lång!");
+			}
+			
+			$this->createConnection();	
+			
+			$sql = "INSERT INTO Comments (BlogpostID, Comment) VALUES (:blogpostid,:comment)";	
+			$query = self::$dbh->prepare($sql);
+			$query->bindParam(":blogpostid", $blogpostID);
+		  	$query->bindParam(":comment", $comment);
+			$query->execute();
+			
+			self::$dbh = null;		  
+		}
+		catch (PDOException $e){
+			return "Databasqueryn misslyckades. " . $e->getMessage();
+		}
 	}
 	
 	/*
@@ -185,7 +214,9 @@ class DatabaseController{
 	}
 }
 
-
+/*
+ * This section handles all calls to the PHP-file, wether it is a GET- or POST-request.
+ */
 
 $dbc = new DatabaseController();
 
@@ -219,16 +250,20 @@ if(isset($_POST["loginusername"]) && isset($_POST["loginpassword"])){
 	echo $dbc->loginUser($_POST["loginusername"], $_POST["loginpassword"]);
 }
 
-// Creation of new user is requested
+//Creation of new user is requested
 if(isset($_POST["registerusername"]) && isset($_POST["registerpassword"])){
 	echo $dbc->insertNewUser($_POST["registerusername"], $_POST["registerpassword"]);
 }
 
-// Creation of new blog post is requested
+//Creation of new blog post is requested
 if(isset($_POST["title"]) && isset($_POST["blogpost"])){
 	echo $dbc->insertNewBlogpost($_POST["title"], $_POST["blogpost"]);
 }
 
+//Adding a comment is requested
+if(isset($_POST["blogpostID"]) && isset($_POST["comment"])){
+	echo $dbc->insertNewComment($_POST["blogpostID"], $_POST["comment"]);
+}
 
 
 

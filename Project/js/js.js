@@ -26,11 +26,17 @@ window.onload = function(){
         datatype:"json",
         data: {getblogposts:"getblogposts"}
         }).done(function(data){
+            console.log(data);
             blogposts = JSON.parse(data);
             
             for(i = 0; i < Object.keys(blogposts).length; i++){
+                console.log(blogposts[i].BlogpostID);
                 console.log(blogposts[i].Title);
                 console.log(blogposts[i].Blogpost);
+
+                $(document).on("click", "." + blogposts[i].BlogpostID ,function() {
+                    alert($(this).attr("class"));
+                });
                 
                 $("#blogposts").append("<div class='sixteen columns'><h2 class='headline'> " + 
                                         blogposts[i].Title + 
@@ -39,13 +45,10 @@ window.onload = function(){
                                         "</p></div>" +
                                         "<form action=''>" +
                                             "<label for='comment'>Lägg till kommentar</label>" +
-                                            "<textarea class='comment'></textarea>" +
-                                            "<button type='submit' class='" + i + "'>Kommentera</button>" +
+                                            "<textarea id='comment' class='" + blogposts[i].BlogpostID + "'></textarea>" +
+                                            "<button type='submit' id='submitcomment' class='" + blogposts[i].BlogpostID + "'>Kommentera</button>" +
                                         "</form>");
-                                        
-                $("." + i).click(function() {  
-                    alert("Nu tryckte du på knapp nummer " + i);
-                });
+                
             }
     });
 };
@@ -174,6 +177,10 @@ $("#admin").click(function(){
     }
 });
 
+$(".back").click(function(){
+    $("#admininterface").slideUp("slow");
+});
+
 $("#submitblogpost").click(function() {
     var title = document.getElementById("title").value;
     var blogpost = document.getElementById("blogpost").value;
@@ -191,6 +198,26 @@ $("#submitblogpost").click(function() {
     });
 });
 
-$(".back").click(function(){
-    $("#admininterface").slideUp("slow");
+/* Function for adding new comment */
+
+$("#blogposts").on("click", function() {
+    /*
+     * Some testing
+     */
+    var classname = $("#submitcomment").attr("class");
+
+    /* TODO: 
+     * Fix so correct textarea and button is selected when commenting.
+     * The id must be extracted from the button in order to place the comment at the corresponding blogpost.
+     * Then this info is sent via a POST to functions.php
+     */
+    var blogpostID = "";
+    var comment = "";
+    
+    $.ajax({
+       type: "POST",
+       url: "php/functions.php",
+       data: {blogpostID:blogpostID, comment:comment}
+       }).done(function(data){                
+    });
 });
