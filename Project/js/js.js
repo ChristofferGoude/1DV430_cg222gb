@@ -26,16 +26,19 @@ window.onload = function(){
         datatype:"json",
         data: {getblogposts:"getblogposts"}
         }).done(function(data){
-            console.log(data);
             blogposts = JSON.parse(data);
             
             for(i = 0; i < Object.keys(blogposts).length; i++){
-                console.log(blogposts[i].BlogpostID);
-                console.log(blogposts[i].Title);
-                console.log(blogposts[i].Blogpost);
+                //console.log(blogposts[i].BlogpostID);
+                //console.log(blogposts[i].Title);
+                //console.log(blogposts[i].Blogpost);
 
-                $(document).on("click", "." + blogposts[i].BlogpostID ,function() {
-                    alert($(this).attr("class"));
+                $(document).on("click", "." + blogposts[i].BlogpostID ,function() {              
+                    var blogpostID = $(this).attr("class");
+                    var comment = "TEST";
+                    alert("nu är vi inne i del 1!");
+                    addNewComment(blogpostID, comment);
+                    alert("nu är vi på del 2!");
                 });
                 
                 $("#blogposts").append("<div class='sixteen columns'><h2 class='headline'> " + 
@@ -200,24 +203,27 @@ $("#submitblogpost").click(function() {
 
 /* Function for adding new comment */
 
-$("#blogposts").on("click", function() {
-    /*
-     * Some testing
-     */
-    var classname = $("#submitcomment").attr("class");
-
-    /* TODO: 
-     * Fix so correct textarea and button is selected when commenting.
-     * The id must be extracted from the button in order to place the comment at the corresponding blogpost.
-     * Then this info is sent via a POST to functions.php
-     */
-    var blogpostID = "";
-    var comment = "";
-    
+function addNewComment(blogpostID, comment){
     $.ajax({
-       type: "POST",
-       url: "php/functions.php",
-       data: {blogpostID:blogpostID, comment:comment}
-       }).done(function(data){                
+        type: "POST",
+        url: "php/functions.php",
+        data: {blogpostid:blogpostID, comment:comment}
+        }).done(function(data){
+            alert("Om detta funkar är vi inne!");
     });
-});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
