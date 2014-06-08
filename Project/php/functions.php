@@ -117,6 +117,26 @@ class DatabaseController{
 		// TODO: FIx delete func
 	}
 	
+	public function getComments($blogpostID){
+		try{		
+			$this->createConnection();
+			
+			$sql = "SELECT BlogpostID, Comment FROM Comments WHERE BlogpostID = :blogpostid";	
+			$query = self::$dbh->prepare($sql);
+			$query->bindParam(":blogpostid", $blogpostID);
+			$query->execute();
+		
+			$comments = $query->fetchAll();
+			
+			self::$dbh = null;
+			
+			return json_encode($comments);
+		}
+		catch (PDOException $e){
+			return "Databasqueryn misslyckades. " . $e->getMessage();
+		}
+	}
+	
 	public function insertNewComment($blogpostID, $comment){
 		try{
 			if($comment == ""){
@@ -235,6 +255,11 @@ if(isset($_GET["logout"])){
 //GET Request for getting all posts
 if(isset($_GET["getblogposts"])){
 	echo $dbc->getBlogPosts();
+}
+
+//GET Request for getting comments
+if(isset($_GET["getcomments"])){
+	echo $dbc->getComments($_GET["getcomments"]);
 }
 
 //GET Request for checking login status

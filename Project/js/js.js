@@ -36,9 +36,8 @@ window.onload = function(){
                 $(document).on("click", "." + blogposts[i].BlogpostID ,function() {              
                     var blogpostID = $(this).attr("class");
                     var comment = "TEST";
-                    alert("nu är vi inne i del 1!");
+                    
                     addNewComment(blogpostID, comment);
-                    alert("nu är vi på del 2!");
                 });
                 
                 $("#blogposts").append("<div class='sixteen columns'><h2 class='headline'> " + 
@@ -51,7 +50,20 @@ window.onload = function(){
                                             "<textarea id='comment' class='" + blogposts[i].BlogpostID + "'></textarea>" +
                                             "<button type='submit' id='submitcomment' class='" + blogposts[i].BlogpostID + "'>Kommentera</button>" +
                                         "</form>");
-                
+                                        
+            	
+                $.ajax({
+			        type: "GET",
+			        url: "php/functions.php",
+			        datatype:"json",
+			        data: {getcomments:blogposts[i].BlogpostID}
+			        }).done(function(data){
+			            comments = JSON.parse(data);
+			            console.log(comments);
+			            for(i = 0; i < Object.keys(comments).length; i++){
+			            	$("#blogposts").append("<p>" + comments[i].Comment + " " + comments[i].BlogpostID + "</p>");
+			            }
+			    });
             }
     });
 };
@@ -207,7 +219,7 @@ function addNewComment(blogpostID, comment){
     $.ajax({
         type: "POST",
         url: "php/functions.php",
-        data: {blogpostid:blogpostID, comment:comment}
+        data: {blogpostID:blogpostID, comment:comment}
         }).done(function(data){
             alert("Om detta funkar är vi inne!");
     });
