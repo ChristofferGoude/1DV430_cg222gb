@@ -40,10 +40,10 @@ class DatabaseController{
 							  
 			self::$dbh = null;
 							  
-			return "Databasqueryn lyckades";
+			return "Din användare skapades!";
 		}
 		catch (PDOException $e){
-			return "Databasqueryn misslyckades. " . $e->getMessage();
+			return "Det gick inte att registrera dig. " . $e->getMessage();
 		}
 	}
 	
@@ -102,10 +102,10 @@ class DatabaseController{
 							  
 			self::$dbh = null;
 							  
-			return "Databasqueryn lyckades";
+			return "Ditt inlägg lades till!";
 		}
 		catch (PDOException $e){
-			return "Databasqueryn misslyckades. " . $e->getMessage();
+			return "Det gick inte att lägga till ditt inlägg. " . $e->getMessage();
 		}
 	}
 	
@@ -121,7 +121,7 @@ class DatabaseController{
 		try{		
 			$this->createConnection();
 			
-			$sql = "SELECT BlogpostID, Comment FROM Comments WHERE BlogpostID = :blogpostid";	
+			$sql = "SELECT BlogpostID, Comment, User FROM Comments WHERE BlogpostID = :blogpostid";	
 			$query = self::$dbh->prepare($sql);
 			$query->bindParam(":blogpostid", $blogpostID);
 			$query->execute();
@@ -146,55 +146,56 @@ class DatabaseController{
 				throw new PDOException("Din kommentar får max vara 140 tecken lång!");
 			}
 			
+			if(isset($_SESSION[self::$session])){
+		
+				$user = $_SESSION[self::$session];
+			}
+			else{
+				throw new PDOException("Du måste vara inloggad för att kommentera!");
+			}
+			
+			
 			$this->createConnection();	
 			
-			$sql = "INSERT INTO Comments (BlogpostID, Comment) VALUES (:blogpostid,:comment)";	
+			$sql = "INSERT INTO Comments (BlogpostID, Comment, User) VALUES (:blogpostid,:comment,:user)";	
 			$query = self::$dbh->prepare($sql);
 			$query->bindParam(":blogpostid", $blogpostID);
 		  	$query->bindParam(":comment", $comment);
+		  	$query->bindParam(":user", $user);
 			$query->execute();
 			
 			self::$dbh = null;		
 			
-			return "Databasqueryn lyckades";  
+			return "Din kommentar lades till!";  
 		}
 		catch (PDOException $e){
-			return "Databasqueryn misslyckades. " . $e->getMessage();
+			return "Det gick inte att lägga till din kommentar. " . $e->getMessage();
 		}
 	}
 	
 	/*
 	 * @return False if there is no user, otherwise saves the session and returns the username.
 	 */
-	public function loginUser($username, $password){
-		try{
-			if($username == "" || $password == ""){
-				throw new PDOException("Du måste ange användarnamn och lösenord!");
-			}
+	public function loginUser($username, $password){		
+		$this->createConnection();	
+		
+		$sql = "SELECT Username FROM Users WHERE Username = :username AND Password = :password";	
+		$query = self::$dbh->prepare($sql);
+		$query->bindParam(":username", $username);
+	  	$query->bindParam(":password", $password);
+		$query->execute();
+		
+		self::$dbh = null;
+						  
+		if($query->rowCount() > 0){
+			$_SESSION[self::$session] = $username;	
 			
-			$this->createConnection();	
 			
-			$sql = "SELECT Username FROM Users WHERE Username = :username AND Password = :password";	
-			$query = self::$dbh->prepare($sql);
-			$query->bindParam(":username", $username);
-		  	$query->bindParam(":password", $password);
-			$query->execute();
-			
-			self::$dbh = null;
-							  
-			if($query->rowCount() > 0){
-				$_SESSION[self::$session] = $username;	
-				
-				
-				return $_SESSION[self::$session];
-			}	
-			else{
-				return false;
-			}			  
-		}
-		catch (PDOException $e){
-			return "Databasqueryn misslyckades. " . $e->getMessage();
-		}
+			return $_SESSION[self::$session];
+		}	
+		else{
+			return false;
+		}			  
 	}
 	
 	/*

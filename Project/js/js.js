@@ -2,7 +2,9 @@
  * @author Christoffer
  */
 
-/* Functions to check login session */
+/* Functions happening on page load */
+/* Controls collection of all blogposts and comments */
+/* Also contains functions for adding comments through dynamic textareas */
 
 window.onload = function(){
     $.ajax({
@@ -32,10 +34,10 @@ window.onload = function(){
                 //console.log(blogposts[i].BlogpostID);
                 //console.log(blogposts[i].Title);
                 //console.log(blogposts[i].Blogpost);
-
+                
                 $(document).on("click", "." + blogposts[i].BlogpostID ,function() {              
                     var blogpostID = $(this).attr("class");
-                    var comment = "TEST";
+                    var comment = $("#comment.comment" + blogpostID).val();
                     
                     addNewComment(blogpostID, comment);
                 });
@@ -47,9 +49,10 @@ window.onload = function(){
                                         "</p></div>" +
                                         "<form action=''>" +
                                             "<label for='comment'>Lägg till kommentar</label>" +
-                                            "<textarea id='comment' class='" + blogposts[i].BlogpostID + "'></textarea>" +
+                                            "<textarea id='comment' class='comment" + blogposts[i].BlogpostID + "'></textarea>" +
                                             "<button type='submit' id='submitcomment' class='" + blogposts[i].BlogpostID + "'>Kommentera</button>" +
-                                        "</form>");
+                                        "</form>" + 
+                                        "<div id='comments' class='comments" + blogposts[i].BlogpostID + "'<p>Kommentarer:</p></div>");
                                         
             	
                 $.ajax({
@@ -60,8 +63,10 @@ window.onload = function(){
 			        }).done(function(data){
 			            comments = JSON.parse(data);
 			            console.log(comments);
+			            
 			            for(i = 0; i < Object.keys(comments).length; i++){
-			            	$("#blogposts").append("<p>" + comments[i].Comment + " " + comments[i].BlogpostID + "</p>");
+			            	$("#comments.comments" + comments[i].BlogpostID).after("<h5>" + comments[i].User + "</h5>" +
+	            	                                                "<p>" + comments[i].Comment + "</p>");
 			            }
 			    });
             }
@@ -144,6 +149,7 @@ $("#logout").click(function() {
         data: {logout:"logout"}
         }).done(function(data){
             if(data != false){
+                document.getElementById("admin").style.display = "none";
                 document.getElementById("loggedinheader").style.display = "none";
                 document.getElementById("header").style.display = "block";
 
@@ -221,7 +227,9 @@ function addNewComment(blogpostID, comment){
         url: "php/functions.php",
         data: {blogpostID:blogpostID, comment:comment}
         }).done(function(data){
-            alert("Om detta funkar är vi inne!");
+            alert(data);
+            
+            location.reload();
     });
 }
 
