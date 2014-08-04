@@ -102,7 +102,7 @@ class DatabaseController{
 							  
 			self::$dbh = null;
 							  
-			return "Ditt inlägg lades till!";
+			return "Ditt inlägg lades till! Sidan laddas nu om.";
 		}
 		catch (PDOException $e){
 			return "Det gick inte att lägga till ditt inlägg. " . $e->getMessage();
@@ -139,6 +139,10 @@ class DatabaseController{
 	
 	public function insertNewComment($blogpostID, $comment){
 		try{
+			if($comment != strip_tags($comment)){
+				throw new PDOException("Du får inte ha med taggar i kommentaren!");
+			}
+			
 			if($comment == ""){
 				throw new PDOException("Du måste skriva en kommentar!");
 			}

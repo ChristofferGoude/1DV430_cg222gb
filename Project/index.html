@@ -69,7 +69,7 @@
 				<input type="text" id="name" />
 				<label for="password">Lösenord</label>
 				<input type="password" id="password" /> 
-				<button type="submit" id="submitlogin">Logga in</button>
+				<a href="#" class="button" id="submitlogin">Logga in</a>
 			</form>
 		</div>
 		<div id="registerform">
@@ -79,7 +79,7 @@
 				<input type="text" id="registername" />
 				<label for="password">Lösenord</label>
 				<input type="password" id="registerpassword" /> 
-				<button type="submit" id="submitregister">Registrera</button>
+				<a href="#" class="button" id="submitregister">Registrera</a>
 			</form>
 		</div>		
 		<!-- Hidden admin interface form -->
@@ -90,7 +90,7 @@
 				<input type="text" id="title" />
 				<label for="blogpost">Inlägg</label>
 				<textarea id="blogpost"></textarea>
-				<button type="submit" id="submitblogpost">Lägg till inlägg</button>
+				<a href="#" class="button" id="submitblogpost">Lägg till inlägg</a>
 				<a href="#" class="button back">Tillbaka</a>
 			</form>
 		</div>
@@ -98,11 +98,13 @@
 		<!-- Main content -->
 		<div class="sixteen columns">
 			<img class="scale-with-grid centered add-bottom" src="media/pics/title.png" />
-			<div id="blogposts">
+			<div id="blogposts" class="container">
 			</div>
 		</div>
 	</div><!-- container -->
-
+	<div id="alerts">
+		<!-- Fills up with different alerts -->
+	</div>
 	<!-- Scripts -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="js/js.js"></script>

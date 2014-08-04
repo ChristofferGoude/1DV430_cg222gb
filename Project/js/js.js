@@ -30,19 +30,15 @@ window.onload = function(){
         }).done(function(data){
             blogposts = JSON.parse(data);
             
-            for(i = 0; i < Object.keys(blogposts).length; i++){
-                //console.log(blogposts[i].BlogpostID);
-                //console.log(blogposts[i].Title);
-                //console.log(blogposts[i].Blogpost);
-                
+            for(i = 0; i < Object.keys(blogposts).length; i++){          
                 $(document).on("click", "." + blogposts[i].BlogpostID ,function() {              
                     var blogpostID = $(this).attr("class");
                     var comment = $("#comment.comment" + blogpostID).val();
                     
                     addNewComment(blogpostID, comment);
                 });
-                
-                $("#blogposts").append("<div class='sixteen columns'><h2 class='headline'> " + 
+
+                $("#blogposts").prepend("<div><h2 class='headline'> " + 
                                         blogposts[i].Title + 
                                         "</h2><p>" + 
                                         blogposts[i].Blogpost + 
@@ -62,7 +58,6 @@ window.onload = function(){
 			        data: {getcomments:blogposts[i].BlogpostID}
 			        }).done(function(data){
 			            comments = JSON.parse(data);
-			            console.log(comments);
 			            
 			            for(i = 0; i < Object.keys(comments).length; i++){
 			            	$("#comments.comments" + comments[i].BlogpostID).after("<h5>" + comments[i].User + "</h5>" +
@@ -96,7 +91,7 @@ $("#submitlogin").click(function() {
         data: {loginusername:loginusername, loginpassword:loginpassword}
         }).done(function(data){
             if(data == false){
-                alert("Denna användare hittades inte!");
+                showAlert("Denna användare hittades inte!");
             }
             else{
                 $("#loginform").slideUp("slow");
@@ -105,7 +100,7 @@ $("#submitlogin").click(function() {
                 document.getElementById("header").style.display = "none";
                 document.getElementById("loggedinheader").style.display = "block";                
                 
-                $(".loggedinheader").html("<p>Välkommen " + data + "</p>");
+                $(".loggedinheader").html("Välkommen " + data);
             }
     });
 });
@@ -181,7 +176,7 @@ $("#submitregister").click(function() {
         url: "php/functions.php",
         data: {registerusername:registerusername, registerpassword:registerpassword}
         }).done(function(data){
-            alert(data);
+            showAlert(data);
     });
 });
 
@@ -210,12 +205,17 @@ $("#submitblogpost").click(function() {
        type: "POST",
        url: "php/functions.php",
        data: {title:title, blogpost:blogpost}
-       }).done(function(data){                
+       }).done(function(data){     
+            showAlert(data);
+                      
             document.getElementById("title").value = "";
             document.getElementById("blogpost").value = "";
             
             $("#admininterface").slideUp("slow");
-            location.reload();
+            setTimeout(function(){
+                location.reload();             
+            }, 3000);
+            
     });
 });
 
@@ -227,10 +227,23 @@ function addNewComment(blogpostID, comment){
         url: "php/functions.php",
         data: {blogpostID:blogpostID, comment:comment}
         }).done(function(data){
-            alert(data);
+            showAlert(data);
             
-            location.reload();
+            setTimeout(function(){
+                location.reload();             
+            }, 3000);
     });
+}
+
+/* Function for showing alerts */
+
+function showAlert(message){
+    var alerts = $("#alerts");    
+    
+    alerts.empty();
+    alerts.append(message);
+    alerts.slideDown();
+    alerts.delay(1500).slideUp();
 }
 
 
